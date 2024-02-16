@@ -3,7 +3,7 @@ import { CovalentService } from "../../../../utils/services/covalent.service";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const walletAddress = body?.walletAddress;
+  const walletAddress = body?.frameInputText;
 
   if (!walletAddress) {
     return NextResponse.json(
