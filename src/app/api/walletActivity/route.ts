@@ -8,7 +8,7 @@ import {
   validateFrameMessage,
 } from "frames.js";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   const frameMessage = await getFrameMessage(body);
   if (!frameMessage) {

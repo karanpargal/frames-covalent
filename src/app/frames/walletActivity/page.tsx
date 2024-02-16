@@ -79,8 +79,8 @@ export default async function Home({
         Debug
       </Link>
       <FrameContainer
-        postUrl="/api/walletActivity"
-        pathname="/api/walletActivity"
+        postUrl={`/api/walletActivity`}
+        pathname="/frames/walletActivity"
         state={state}
         previousFrame={previousFrame}
       >
