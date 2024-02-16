@@ -28,83 +28,17 @@ const reducer: FrameReducer<State> = (state, action) => {
   };
 };
 
-// This is a react server component only
-export default async function Home({
-  params,
-  searchParams,
-}: NextServerPageProps) {
-  const previousFrame = getPreviousFrame<State>(searchParams);
-
-  const frameMessage = await getFrameMessage(previousFrame.postBody, {
-    ...DEBUG_HUB_OPTIONS,
-  });
-
-  if (frameMessage && !frameMessage?.isValid) {
-    throw new Error("Invalid frame payload");
-  }
-
-  const [state, dispatch] = useFramesReducer<State>(
-    reducer,
-    initialState,
-    previousFrame
-  );
-
-  // Here: do a server side side effect either sync or async (using await), such as minting an NFT if you want.
-  // example: load the users credentials & check they have an NFT
-
-  console.log("info: state is:", state);
-
-  if (frameMessage) {
-    const {
-      isValid,
-      buttonIndex,
-      inputText,
-      castId,
-      requesterFid,
-      casterFollowsRequester,
-      requesterFollowsCaster,
-      likedCast,
-      recastedCast,
-      requesterVerifiedAddresses,
-      requesterUserData,
-    } = frameMessage;
-
-    console.log("info: frameMessage is:", frameMessage);
-  }
-
-  const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
-
-  // then, when done, return next frame
+export default async function Home() {
   return (
-    <div className="p-4">
-      frames.js starter kit. The Template Frame is on this page, it&apos;s in
-      the html meta tags (inspect source).{" "}
-      <Link href={`/debug?url=${baseUrl}`} className="underline">
-        Debug
-      </Link>
-      <FrameContainer
-        postUrl="/frames"
-        pathname="/"
-        state={state}
-        previousFrame={previousFrame}
-      >
-        {/* <FrameImage src="https://framesjs.org/og.png" /> */}
-        <FrameImage aspectRatio="1.91:1">
-          <div tw="w-full h-full bg-slate-700 text-white justify-center items-center">
-            {frameMessage?.inputText ? frameMessage.inputText : "Hello world"}
-          </div>
-        </FrameImage>
-        <FrameInput text="put some text here" />
-        <FrameButton>
-          {state?.active === "1" ? "Active" : "Inactive"}
-        </FrameButton>
-        <FrameButton>
-          {state?.active === "2" ? "Active" : "Inactive"}
-        </FrameButton>
-        <FrameButton action="link" target={`https://www.google.com`}>
-          External
-        </FrameButton>
-      </FrameContainer>
+    <div className="flex h-screen flex-col gap-4 justify-center mx-auto items-center">
+      <div>Covalent Logo</div>
+      <div>Welcome to Covalent frames</div>
+      <div className="flex gap-4">
+        <Link href="/frames/walletActivity" className="underline">
+          Wallet Activity
+        </Link>
+        <a>Wallet Approval</a>
+      </div>
     </div>
   );
 }
