@@ -18,5 +18,7 @@ export async function POST(request: NextRequest) {
       walletAddress
     );
 
-  return NextResponse.json(resp, { status: 200 });
+  console.log("info: resp is:", resp);
+
+  return NextResponse.json({success: true}, { status: 200 });
 }
