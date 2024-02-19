@@ -9,7 +9,9 @@ export default async function Home() {
         <Link href="/frames/walletActivity" className="underline">
           Wallet Activity
         </Link>
-        <a>Wallet Approval</a>
+        <Link href="/frames/walletApproval" className="underline">
+          Wallet Approval
+        </Link>
       </div>
     </div>
   );

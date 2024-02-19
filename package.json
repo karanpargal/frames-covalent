@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@covalenthq/client-sdk": "^0.9.0",
+    "@noble/ed25519": "^2.0.0",
     "@vercel/og": "^0.6.2",
     "frames.js": "^0.5.0",
+    "moment": "^2.30.1",
     "next": "14.1.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "@noble/ed25519": "^2.0.0",
     "qrcode.react": "^3.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "satori": "^0.10.13",
     "swr": "^2.2.4"
   },
