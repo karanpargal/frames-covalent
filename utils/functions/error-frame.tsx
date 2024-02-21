@@ -1,4 +1,4 @@
-export const ERROR_FRAME = (error: { message: string } | Error) => {
+export const ERROR_FRAME = (error: Error | any) => {
   return (
     <div
       style={{
@@ -49,10 +49,19 @@ export const ERROR_FRAME = (error: { message: string } | Error) => {
           </clipPath>
         </defs>
       </svg>
-      <div style={{ marginTop: 40, fontSize: "20px" }}>
-        Oops, looks like we ran into an error.
+      <div style={{ marginTop: 40, fontSize: "24px" }}>
+        {error.slug === "timeout"
+          ? null
+          : "Oops, looks like we ran into an error."}
       </div>
-      <div style={{ marginTop: 20, fontSize: "24px" }}>
+      <div
+        style={{
+          marginTop: 20,
+          fontSize: "28px",
+          padding: "0px 20px",
+          textAlign: "center",
+        }}
+      >
         {error.message || "An error occurred."}
       </div>
     </div>
