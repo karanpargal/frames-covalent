@@ -50,7 +50,7 @@ export const ERROR_FRAME = (error: Error | any) => {
         </defs>
       </svg>
       <div style={{ marginTop: 40, fontSize: "24px" }}>
-        {error.slug === "timeout"
+        {error.slug === "timeout" || error.slug === "invalid_wallet_address"
           ? null
           : "Oops, looks like we ran into an error."}
       </div>

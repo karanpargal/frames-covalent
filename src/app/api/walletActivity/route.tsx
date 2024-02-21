@@ -33,41 +33,47 @@ export async function POST(request: NextRequest) {
       let transactionData: Array<TRANSACTION_DATA> = [];
 
       if (!body) {
-        throw new Error("Invalid Payload");
+        reject({
+          message: "Invalid frame payload",
+          slug: "invalid_frame_payload",
+        });
       }
 
       const walletAddress = body.inputText;
 
-      if (walletAddress === "" || !walletAddress) {
-        throw new Error("No wallet address provided");
-      }
-
-      for await (const resp of CovalentService.getCovalentClient().TransactionService.getAllTransactionsForAddress(
-        "eth-mainnet",
-        walletAddress,
-        {
-          noLogs: true,
+      try {
+        for await (const resp of CovalentService.getCovalentClient().TransactionService.getAllTransactionsForAddress(
+          "eth-mainnet",
+          walletAddress!,
+          {
+            noLogs: true,
+          }
+        )) {
+          let data = {
+            tx_hash: resp.tx_hash,
+            block_signed_at: resp.block_signed_at,
+            from_address: resp.from_address,
+            to_address: resp.to_address,
+            to_address_label: resp.to_address_label,
+            value:
+              Number(resp.value) /
+              Math.pow(10, resp.gas_metadata.contract_decimals),
+            pretty_value_quote: resp.pretty_value_quote,
+            fees_paid:
+              Number(resp.fees_paid) /
+              Math.pow(10, resp.gas_metadata.contract_decimals),
+            decimals: resp.gas_metadata.contract_decimals,
+            pretty_gas_quote: resp.pretty_gas_quote,
+            native_token_logo: resp.gas_metadata.logo_url,
+          };
+          transactionData.push(data);
+          if (transactionData.length === 4) break;
         }
-      )) {
-        let data = {
-          tx_hash: resp.tx_hash,
-          block_signed_at: resp.block_signed_at,
-          from_address: resp.from_address,
-          to_address: resp.to_address,
-          to_address_label: resp.to_address_label,
-          value:
-            Number(resp.value) /
-            Math.pow(10, resp.gas_metadata.contract_decimals),
-          pretty_value_quote: resp.pretty_value_quote,
-          fees_paid:
-            Number(resp.fees_paid) /
-            Math.pow(10, resp.gas_metadata.contract_decimals),
-          decimals: resp.gas_metadata.contract_decimals,
-          pretty_gas_quote: resp.pretty_gas_quote,
-          native_token_logo: resp.gas_metadata.logo_url,
-        };
-        transactionData.push(data);
-        if (transactionData.length === 4) break;
+      } catch (error: Error | any) {
+        reject({
+          message: "Invalid wallet address",
+          slug: "invalid_wallet_address",
+        });
       }
 
       const react_component = new ImageResponse(
@@ -134,8 +140,8 @@ export async function POST(request: NextRequest) {
               }}
             >
               Latest Transactions for{" "}
-              {is_address_or_ens(walletAddress) === "address"
-                ? minify_address(walletAddress)
+              {is_address_or_ens(walletAddress!) === "address"
+                ? minify_address(walletAddress!)
                 : walletAddress}{" "}
               on ETH Mainnet
             </div>
