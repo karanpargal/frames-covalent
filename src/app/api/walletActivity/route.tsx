@@ -12,6 +12,7 @@ import {
   is_address_or_ens,
   convert_to_base64_url,
 } from "../../../../utils/functions/helper";
+import { ERROR_FRAME } from "../../../../utils/functions/error-frame";
 import moment from "moment";
 import { TRANSACTION_DATA } from "../../../../utils/constants/types";
 
@@ -21,48 +22,41 @@ export async function POST(request: NextRequest) {
     let transactionData: Array<TRANSACTION_DATA> = [];
 
     if (!body) {
-      return NextResponse.json(
-        { message: "Invalid frame payload" },
-        { status: 400 }
-      );
+      throw new Error("Invalid Payload");
     }
 
     const walletAddress = body.inputText;
 
-    if (!walletAddress) {
-      return NextResponse.json(
-        { message: "Missing wallet address" },
-        { status: 400 }
-      );
+    if (walletAddress === "" || !walletAddress) {
+      throw new Error("No wallet address provided");
     }
 
-    try {
-      for await (const resp of CovalentService.getCovalentClient().TransactionService.getAllTransactionsForAddress(
-        "eth-mainnet",
-        walletAddress
-      )) {
-        let data = {
-          tx_hash: resp.tx_hash,
-          block_signed_at: resp.block_signed_at,
-          from_address: resp.from_address,
-          to_address: resp.to_address,
-          to_address_label: resp.to_address_label,
-          value:
-            Number(resp.value) /
-            Math.pow(10, resp.gas_metadata.contract_decimals),
-          pretty_value_quote: resp.pretty_value_quote,
-          fees_paid:
-            Number(resp.fees_paid) /
-            Math.pow(10, resp.gas_metadata.contract_decimals),
-          decimals: resp.gas_metadata.contract_decimals,
-          pretty_gas_quote: resp.pretty_gas_quote,
-          native_token_logo: resp.gas_metadata.logo_url,
-        };
-        transactionData.push(data);
-        if (transactionData.length === 4) break;
+    for await (const resp of CovalentService.getCovalentClient().TransactionService.getAllTransactionsForAddress(
+      "eth-mainnet",
+      walletAddress,
+      {
+        noLogs: true,
       }
-    } catch (error: any) {
-      console.log(error.message);
+    )) {
+      let data = {
+        tx_hash: resp.tx_hash,
+        block_signed_at: resp.block_signed_at,
+        from_address: resp.from_address,
+        to_address: resp.to_address,
+        to_address_label: resp.to_address_label,
+        value:
+          Number(resp.value) /
+          Math.pow(10, resp.gas_metadata.contract_decimals),
+        pretty_value_quote: resp.pretty_value_quote,
+        fees_paid:
+          Number(resp.fees_paid) /
+          Math.pow(10, resp.gas_metadata.contract_decimals),
+        decimals: resp.gas_metadata.contract_decimals,
+        pretty_gas_quote: resp.pretty_gas_quote,
+        native_token_logo: resp.gas_metadata.logo_url,
+      };
+      transactionData.push(data);
+      if (transactionData.length === 4) break;
     }
 
     const react_component = new ImageResponse(
@@ -350,7 +344,7 @@ export async function POST(request: NextRequest) {
         return {
           action: "link",
           label: `Txn ${id + 1}`,
-          target: `https://etherscan.io/tx/${data.tx_hash}`,
+          target: `https://goldrush-tx-receipt-ui.vercel.app/tx/eth-mainnet/${data.tx_hash}`,
         };
       }) as FrameButtonsType,
 
@@ -368,9 +362,45 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.log("error", error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
+
+    const error_message = error.message || "Internal server error";
+
+    const error_component = new ImageResponse(ERROR_FRAME(error_message), {
+      width: 1200,
+      height: 630,
+    });
+
+    const error_component_buffer = await error_component.arrayBuffer();
+    const error_component_base64 = convert_to_base64_url(
+      btoa(
+        new Uint8Array(error_component_buffer).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      )
     );
+
+    const error_frame: Frame = {
+      version: "vNext",
+      image: error_component_base64,
+      // buttons: [
+      //   {
+      //     action: "post",
+      //     label: "Try Again",
+      //     target: "https://covalent-frames.vercel.app/frame/walletActivity",
+      //   },
+      // ],
+      ogImage: error_component_base64,
+      postUrl: "https://covalent-frames.vercel.app/frame/walletActivity",
+    };
+
+    const error_frame_html = getFrameHtml(error_frame);
+
+    return new Response(error_frame_html, {
+      headers: {
+        "Content-Type": "text/html",
+      },
+      status: 200,
+    });
   }
 }
