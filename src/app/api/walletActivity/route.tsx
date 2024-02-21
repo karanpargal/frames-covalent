@@ -403,7 +403,7 @@ export async function POST(request: NextRequest) {
 
     const response = await Promise.race([frame_Promise, timeout_Promise]);
 
-    return response;
+    return response as Response;
   } catch (error: Error | any) {
     const error_component = new ImageResponse(ERROR_FRAME(error), {
       width: 1200,
