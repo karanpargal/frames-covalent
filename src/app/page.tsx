@@ -7,11 +7,11 @@ export default async function Home() {
       <div>Welcome to Covalent frames</div>
       <div className="flex gap-4">
         <Link href="/frames/walletActivity" className="underline">
-          Wallet Activity
+          Wallet Activity on ETH Mainnet
         </Link>
-        <Link href="/frames/walletApproval" className="underline">
+        {/* <Link href="/frames/walletApproval" className="underline">
           Wallet Approval
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
