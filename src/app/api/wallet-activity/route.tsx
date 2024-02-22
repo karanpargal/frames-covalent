@@ -399,7 +399,7 @@ export async function POST(request: NextRequest) {
         buttons: frame_buttons,
 
         ogImage: react_component_base64,
-        postUrl: process.env.BASE_URL!,
+        postUrl: process.env.BASE_URL! + "frames/wallet-activity",
       };
 
       const frame_html = getFrameHtml(frame);
