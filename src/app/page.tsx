@@ -6,10 +6,10 @@ export default async function Home() {
       <div>Covalent Logo</div>
       <div>Welcome to Covalent frames</div>
       <div className="flex gap-4">
-        <Link href="/frames/walletActivity" className="underline">
+        <Link href="/frames/wallet-activity" className="underline">
           Wallet Activity on ETH Mainnet
         </Link>
-        {/* <Link href="/frames/walletApproval" className="underline">
+        {/* <Link href="/frames/wallet-approval" className="underline">
           Wallet Approval
         </Link> */}
       </div>

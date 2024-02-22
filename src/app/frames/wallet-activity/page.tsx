@@ -45,15 +45,15 @@ export default async function Home({
       Copy this link and paste it on the warpcaster to see the frame in action.
       <Link
         href={`/debug?url=${
-          process.env.NEXT_PUBLIC_HOST + "/frames/walletApproval"
+          process.env.NEXT_PUBLIC_HOST + "/frames/wallet-activity"
         }`}
         className="underline"
       >
         Debug
       </Link>
       <FrameContainer
-        postUrl={`/api/walletActivity`}
-        pathname="/frames/walletActivity"
+        postUrl={`/api/wallet-activity`}
+        pathname="/frames/wallet-activity"
         state={state}
         previousFrame={previousFrame}
       >
@@ -108,15 +108,15 @@ export default async function Home({
               </defs>
             </svg>
             <div style={{ marginTop: 40 }}>
-              Welcome to Wallet Approvals Frame!!
+              Welcome to Wallet Activity Frame!!
             </div>
             <div style={{ marginTop: 20, fontSize: "26px" }}>
-              Enter your wallet address to get your wallet approvals
+              Enter your wallet address to get your recent activities
             </div>
           </div>
         </FrameImage>
         <FrameInput text="Enter your wallet address here" />
-        <FrameButton>Get Wallet Approvals</FrameButton>
+        <FrameButton>Get Wallet Activity</FrameButton>
         <FrameButton
           action="link"
           target={`https://www.covalenthq.com/platform/`}

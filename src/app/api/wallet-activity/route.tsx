@@ -1,8 +1,9 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { CovalentService } from "../../../../utils/services/covalent.service";
 import { ImageResponse } from "@vercel/og";
 import {
   Frame,
+  FrameButton,
   FrameButtonsType,
   getFrameHtml,
   getFrameMessage,
@@ -67,7 +68,7 @@ export async function POST(request: NextRequest) {
             native_token_logo: resp.gas_metadata.logo_url,
           };
           transactionData.push(data);
-          if (transactionData.length === 4) break;
+          if (transactionData.length === 3) break;
         }
       } catch (error: Error | any) {
         reject({
@@ -90,11 +91,12 @@ export async function POST(request: NextRequest) {
               padding: "10px",
               background: "#000426",
               color: "white",
+              margin: "20px 0 0 20px",
             }}
           >
             <svg
-              width="200"
-              height="54"
+              width="341"
+              height="82"
               viewBox="0 0 341 82"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -132,9 +134,9 @@ export async function POST(request: NextRequest) {
             <div
               style={{
                 display: "flex",
-                fontSize: "28px",
+                fontSize: "36px",
                 flexDirection: "row",
-                margin: "10px 0",
+                margin: "14px 0",
                 fontWeight: "bold",
                 justifyContent: "center",
               }}
@@ -149,7 +151,7 @@ export async function POST(request: NextRequest) {
               <div
                 style={{
                   display: "flex",
-                  fontSize: "24px",
+                  fontSize: "28px",
                   flexDirection: "row",
                   margin: "20px 0 15px 0",
                   justifyContent: "center",
@@ -161,7 +163,7 @@ export async function POST(request: NextRequest) {
               <div
                 style={{
                   display: "flex",
-                  fontSize: "24px",
+                  fontSize: "28px",
                   flexDirection: "row",
                   margin: "20px 0 15px 0",
                 }}
@@ -235,9 +237,9 @@ export async function POST(request: NextRequest) {
                   key={index}
                   style={{
                     display: "flex",
-                    fontSize: "24px",
+                    fontSize: "28px",
                     flexDirection: "row",
-                    marginBottom: 20,
+                    marginBottom: "20px",
                   }}
                 >
                   <div
@@ -374,19 +376,30 @@ export async function POST(request: NextRequest) {
         )
       );
 
+      let txn_buttons = transactionData.map((data, index) => {
+        return {
+          action: "link",
+          label: `Txn ${index + 1}`,
+          target: `https://etherscan.io/tx/${data.tx_hash}`,
+        };
+      }) as FrameButton[];
+
+      let frame_buttons: FrameButtonsType = [
+        {
+          action: "post",
+          label: "Go back",
+          target: process.env.BASE_URL! + "/frames/wallet-activity",
+        },
+        ...txn_buttons,
+      ] as FrameButtonsType;
+
       const frame: Frame = {
         version: "vNext",
         image: react_component_base64,
-        buttons: transactionData.map((data, id) => {
-          return {
-            action: "link",
-            label: `Txn ${id + 1}`,
-            target: `https://goldrush-tx-receipt-ui.vercel.app/tx/eth-mainnet/${data.tx_hash}`,
-          };
-        }) as FrameButtonsType,
+        buttons: frame_buttons,
 
         ogImage: react_component_base64,
-        postUrl: "https://covalent-frames.vercel.app/frame/walletActivity",
+        postUrl: process.env.BASE_WALLET_ACTIVITY_URL!,
       };
 
       const frame_html = getFrameHtml(frame);
@@ -424,7 +437,14 @@ export async function POST(request: NextRequest) {
       version: "vNext",
       image: error_component_base64,
       ogImage: error_component_base64,
-      postUrl: "https://covalent-frames.vercel.app/frame/walletActivity",
+      buttons: [
+        {
+          action: "post",
+          label: "Try Again",
+          target: process.env.BASE_URL! + "/frames/wallet-activi",
+        },
+      ],
+      postUrl: "https://covalent-frames.vercel.app/frame/wallet-activi",
     };
 
     const error_frame_html = getFrameHtml(error_frame);
