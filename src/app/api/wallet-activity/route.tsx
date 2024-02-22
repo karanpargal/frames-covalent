@@ -380,7 +380,7 @@ export async function POST(request: NextRequest) {
         return {
           action: "link",
           label: `Txn ${index + 1}`,
-          target: `https://etherscan.io/tx/${data.tx_hash}`,
+          target: `https://goldrush-tx-receipt-ui.vercel.app/tx/eth-mainnet/${data.tx_hash}`,
         };
       }) as FrameButton[];
 
@@ -388,7 +388,7 @@ export async function POST(request: NextRequest) {
         {
           action: "post",
           label: "Go back",
-          target: process.env.BASE_URL! + "/frames/wallet-activity",
+          target: process.env.BASE_URL! + "frames/wallet-activity",
         },
         ...txn_buttons,
       ] as FrameButtonsType;
@@ -441,7 +441,7 @@ export async function POST(request: NextRequest) {
         {
           action: "post",
           label: "Try Again",
-          target: process.env.BASE_URL! + "/frames/wallet-activity",
+          target: process.env.BASE_URL! + "frames/wallet-activity",
         },
       ],
       postUrl: "https://covalent-frames.vercel.app/frame/wallet-activity",
