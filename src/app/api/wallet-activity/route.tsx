@@ -399,7 +399,7 @@ export async function POST(request: NextRequest) {
         buttons: frame_buttons,
 
         ogImage: react_component_base64,
-        postUrl: process.env.BASE_WALLET_ACTIVITY_URL!,
+        postUrl: process.env.BASE_URL!,
       };
 
       const frame_html = getFrameHtml(frame);
@@ -441,10 +441,10 @@ export async function POST(request: NextRequest) {
         {
           action: "post",
           label: "Try Again",
-          target: process.env.BASE_URL! + "/frames/wallet-activi",
+          target: process.env.BASE_URL! + "/frames/wallet-activity",
         },
       ],
-      postUrl: "https://covalent-frames.vercel.app/frame/wallet-activi",
+      postUrl: "https://covalent-frames.vercel.app/frame/wallet-activity",
     };
 
     const error_frame_html = getFrameHtml(error_frame);
