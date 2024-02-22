@@ -95,8 +95,8 @@ export async function POST(request: NextRequest) {
             }}
           >
             <svg
-              width="341"
-              height="82"
+              width="228"
+              height="55"
               viewBox="0 0 341 82"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
