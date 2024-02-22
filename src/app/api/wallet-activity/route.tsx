@@ -444,7 +444,7 @@ export async function POST(request: NextRequest) {
           target: process.env.BASE_URL! + "frames/wallet-activity",
         },
       ],
-      postUrl: "https://covalent-frames.vercel.app/frame/wallet-activity",
+      postUrl: "https://covalent-frames.vercel.app/frames/wallet-activity",
     };
 
     const error_frame_html = getFrameHtml(error_frame);
