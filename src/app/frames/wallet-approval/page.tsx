@@ -10,6 +10,7 @@ import {
   useFramesReducer,
 } from "frames.js/next/server";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/react";
 import { DEBUG_HUB_OPTIONS } from "@/app/debug/constants";
 
 type State = {};
@@ -51,6 +52,7 @@ export default async function Home({
       >
         Debug
       </Link>
+      <Analytics />
       <FrameContainer
         postUrl={`/api/wallet-activity`}
         pathname="/frames/wallet-activity"
