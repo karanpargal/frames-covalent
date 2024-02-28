@@ -19,15 +19,15 @@ const COVALENT_SERVICE = CovalentService.getCovalentClient();
 
 export async function POST(req: NextRequest) {
   try {
-    // const timeout_Promise = new Promise((resolve, reject) => {
-    //   setTimeout(() => {
-    //     reject({
-    //       message:
-    //         "The response for that address was big, resulting in a > 5s request time. Please try again with a different address.",
-    //       slug: "timeout",
-    //     });
-    //   }, 4500);
-    // });
+    const timeout_Promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject({
+          message:
+            "The response for that address was big, resulting in a > 5s request time. Please try again with a different address.",
+          slug: "timeout",
+        });
+      }, 4500);
+    });
 
     const frame_Promise = new Promise(async (resolve, reject) => {
       const body = await getFrameMessage(await req.json());
@@ -193,8 +193,8 @@ export async function POST(req: NextRequest) {
                           padding: "3px 10px",
                           backgroundColor: `${
                             approval.pretty_value_at_risk_quote === "$0.00"
-                              ? "#00A86B"
-                              : "#BF0A30"
+                              ? "#4CBB17"
+                              : "#FF2800"
                           }`,
                           borderRadius: "5px",
                         }}
@@ -263,8 +263,8 @@ export async function POST(req: NextRequest) {
                                   color: `${
                                     spender.risk_factor.toLowerCase() ===
                                     "consider revoking"
-                                      ? "#BF0A30"
-                                      : "#00A86B"
+                                      ? "#FF2800"
+                                      : "#4CBB17"
                                   }`,
                                 }}
                               >
@@ -303,6 +303,11 @@ export async function POST(req: NextRequest) {
           label: "Try Another Address",
           target: process.env.BASE_URL! + "/frames/wallet-approval",
         },
+        {
+          action: "link",
+          label: "Revoke Access",
+          target: "https://revoke.cash/",
+        },
       ] as FrameButtonsType;
 
       const frame: Frame = {
@@ -324,7 +329,7 @@ export async function POST(req: NextRequest) {
       );
     });
 
-    const response = await Promise.race([frame_Promise]);
+    const response = await Promise.race([frame_Promise, timeout_Promise]);
 
     return response as Response;
   } catch (e: any) {
