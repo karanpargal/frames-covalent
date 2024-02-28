@@ -11,3 +11,20 @@ export interface TRANSACTION_DATA {
   pretty_gas_quote: string;
   native_token_logo: string;
 }
+
+export interface TOKEN_APPROVAL_DATA {
+  token_address: string;
+  ticker_symbol: string;
+  contract_decimals: number;
+  logo_url: string;
+  value_at_risk: number;
+  pretty_value_at_risk_quote: string;
+  spenders: SPENDER[];
+}
+
+export interface SPENDER {
+  spender_address: string;
+  value_at_risk: number;
+  pretty_value_at_risk_quote: string;
+  risk_factor: string;
+}

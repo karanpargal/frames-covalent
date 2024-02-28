@@ -45,15 +45,15 @@ export default async function Home({
       Copy this link and paste it on the warpcaster to see the frame in action.
       <Link
         href={`/debug?url=${
-          process.env.NEXT_PUBLIC_HOST + "/frames/wallet-activity"
+          process.env.NEXT_PUBLIC_HOST + "/frames/wallet-approval"
         }`}
         className="underline"
       >
         Debug
       </Link>
       <FrameContainer
-        postUrl={`/api/wallet-activity`}
-        pathname="/frames/wallet-activity"
+        postUrl={`/api/wallet-approval`}
+        pathname="/frames/wallet-approval"
         state={state}
         previousFrame={previousFrame}
       >

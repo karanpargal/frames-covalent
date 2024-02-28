@@ -7,13 +7,13 @@ export default async function Home() {
     <div className="flex h-screen flex-col gap-4 justify-center mx-auto items-center">
       <Image src={CovalentLogo} alt="Covalent Logo" className="mb-10" />
       <p className="text-3xl">Welcome to Covalent frames</p>
-      <div className="flex gap-4 text-lg">
+      <div className="flex flex-col gap-2 text-lg">
         <Link href="/frames/wallet-activity" className="underline">
           Wallet Activity on ETH Mainnet
         </Link>
-        {/* <Link href="/frames/wallet-approval" className="underline">
+        <Link href="/frames/wallet-approval" className="underline">
           Wallet Approval
-        </Link> */}
+        </Link>
       </div>
     </div>
   );
