@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
                 display: "flex",
               }}
             >
-              Checkout all your token approvals!!
+              {walletAddress} token approvals!!
             </div>
             <div
               style={{
@@ -197,6 +197,7 @@ export async function POST(req: NextRequest) {
                               : "#FF2800"
                           }`,
                           borderRadius: "5px",
+                          width: "35%",
                         }}
                       >
                         Total Value at Risk:{" "}

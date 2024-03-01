@@ -17,6 +17,8 @@ import { ERROR_FRAME } from "../../../../utils/functions/error-frame";
 import moment from "moment";
 import { TRANSACTION_DATA } from "../../../../utils/constants/types";
 
+const COVALENT_SERVICE = CovalentService.getCovalentClient();
+
 export async function POST(request: NextRequest) {
   try {
     const timeout_Promise = new Promise((resolve, reject) => {
@@ -43,7 +45,7 @@ export async function POST(request: NextRequest) {
       const walletAddress = body.inputText;
 
       try {
-        for await (const resp of CovalentService.getCovalentClient().TransactionService.getAllTransactionsForAddress(
+        for await (const resp of COVALENT_SERVICE.TransactionService.getAllTransactionsForAddress(
           "eth-mainnet",
           walletAddress!,
           {
