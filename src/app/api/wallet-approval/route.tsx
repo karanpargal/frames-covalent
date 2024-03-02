@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
             "The response for that address was big, resulting in a > 5s request time. Please try again with a different address.",
           slug: "timeout",
         });
-      }, 5000);
+      }, 4500);
     });
 
     const frame_Promise = new Promise(async (resolve, reject) => {
