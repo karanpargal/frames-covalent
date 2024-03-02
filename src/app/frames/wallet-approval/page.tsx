@@ -11,6 +11,8 @@ import {
 } from "frames.js/next/server";
 import Link from "next/link";
 import { DEBUG_HUB_OPTIONS } from "@/app/debug/constants";
+import CovalentLogo from "@/app/assets/logo/covalent.svg";
+import Image from "next/image";
 
 type State = {};
 
@@ -41,7 +43,8 @@ export default async function Home({
   );
 
   return (
-    <div className="p-4">
+    <div className="flex flex-col h-screen gap-8 justify-center items-center p-4">
+      <Image src={CovalentLogo} className="w-80" alt="Covalent Logo" />
       Copy this link and paste it on the warpcaster to see the frame in action.
       <Link
         href={`/debug?url=${
@@ -71,7 +74,7 @@ export default async function Home({
               fontWeight: 800,
             }}
           >
-            <svg
+            {/* <svg
               width="341"
               height="82"
               viewBox="0 0 341 82"
@@ -106,11 +109,11 @@ export default async function Home({
                   />
                 </clipPath>
               </defs>
-            </svg>
-            <div style={{ marginTop: 40 }}>
+            </svg> */}
+            {/* <div style={{ marginTop: 40 }}>
               Welcome to Wallet Approvals Frame!!
-            </div>
-            <div style={{ marginTop: 20, fontSize: "26px" }}>
+            </div> */}
+            <div style={{ marginTop: 20, fontSize: "36px" }}>
               Enter your wallet address to get your wallet approvals
             </div>
           </div>

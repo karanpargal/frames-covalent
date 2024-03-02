@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
               padding: "20px 20px",
             }}
           >
-            <svg
+            {/* <svg
               width="228"
               height="55"
               viewBox="0 0 341 82"
@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
                   />
                 </clipPath>
               </defs>
-            </svg>
+            </svg> */}
 
             <div
               style={{
