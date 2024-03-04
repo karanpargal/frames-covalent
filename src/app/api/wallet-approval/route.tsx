@@ -307,7 +307,7 @@ export async function POST(req: NextRequest) {
         {
           action: "link",
           label: "Revoke Access",
-          target: "https://revoke.cash/",
+          target: `https://revoke.cash/address/${walletAddress}?chainId=1`,
         },
       ] as FrameButtonsType;
 
